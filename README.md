@@ -38,7 +38,7 @@ Total component cost is about 30$.
 * Connect the relay VIN to the ESP32 V+
 * Connect your ESP32 chosen control pin (mine is GPIO33) to the relay control pin
 * Connect the flow meter poitive and negative wires similarly, while connecting it's yellow pulse sensor wire to a different GPIO pin for sensing (I am using GPIO32)
-* Connect the tubing, drippers and inline the flow meter in the main tube, not to far from the pump.
+* Connect the tubing, drippers and place inline the flow meter in the main tube, not too far from the pump, so it can sense the real flow rate.
 * Submerge the pump in a bucket of water.
 * Add the esp32 to your home assistant and configure a card if you with (see card.yaml)
 * Configure automations for watering at your favourite intervals and for stopping the pump if the rate is too low for some time, which might indicate the bucket is empty of water. I have a notification sent to me in the case. You can also integrate with weather sensors and stop watering if it rains, or if the soil is too damp (with appropriate soil sensors).
