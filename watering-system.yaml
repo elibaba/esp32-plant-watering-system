@@ -1,0 +1,97 @@
+esphome:
+  name: watering-system
+  friendly_name: Watering System
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "YourKeyHere"
+
+# OTA
+ota:
+  - platform: esphome
+    password: "YourOTAPassword"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Watering-System Fallback"
+    password: "YourFallbackPassword"
+
+captive_portal:
+
+# === GLOBALS ===
+# Counts the total liters per day, resets at midnight
+globals:
+  - id: daily_water_counter
+    type: float
+    restore_value: yes
+    initial_value: '0.0'
+
+# === SWITCHES ===
+# Switch to turn the 12V water pump on via relay activated on GPIO33
+switch:
+  - platform: gpio
+    name: "Pump"
+    pin: 
+      number: GPIO33
+      inverted: False
+      mode: OUTPUT
+    id: watering_pump_switch
+
+  # A switch to zero the daily amount, in case needed
+  - platform: template
+    name: "Reset Daily Water Usage"
+    turn_on_action:
+      - lambda: |-
+          id(daily_water_counter) = 0;
+
+# === SENSORS ===
+sensor:
+  # Flow rate in L/min
+  - platform: pulse_counter
+    pin: GPIO32
+    name: "Water Flow Rate"
+    id: water_flow_rate
+    update_interval: 1s
+    unit_of_measurement: "L/min"
+    filters:
+      - multiply: 0.00015  # calibration factor, roughly equats to 0.33L/Min
+
+  # Daily water usage in liters
+  - platform: template
+    name: "Daily Water Usage"
+    unit_of_measurement: "L"
+    update_interval: 5s
+    lambda: |-
+      static unsigned long last_time = millis();
+      unsigned long now = millis();
+      float dt_min = (now - last_time) / 60000.0; // convert ms to minutes
+      last_time = now;
+
+      # Increment as water flows
+      if (id(watering_pump_switch).state) {
+        id(daily_water_counter) += id(water_flow_rate).state * dt_min;
+      }
+      return id(daily_water_counter);
+
+# === TIME COMPONENT ===
+#For resetting at midnight
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    on_time:
+      - at: "00:00:00"
+        then:
+          - lambda: |-
+              id(daily_water_counter) = 0; // automatic reset at midnight
