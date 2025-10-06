@@ -6,14 +6,17 @@ I have several plants in my porch that require constant watering, and I got tire
 
 This uses a pretty simple setup:
 
-* ESP32-Vroom with GPIO33 controlling a 1-gang relay
-* A 12V submerged water pump, currently inside a 10L water bucket, but can be of course in any container you wish (ideally with a lid)
-* A 12VDC power supply to power the pump and the ESP32
-* A buck converter to step down 12V DC to 5V DC in order to power the ESP32 
-* A hall flow meter to sense the water flow rate
-* A garden watering hardware kit from Aliexpress
-* A mains plug + wire to connect to the 12V power supply
-* A breadboard to house the ESP32 and the voltage converter
+* ESP32-Vroom (https://aliexpress.com/item/1005005776600877.html) with GPIO33 controlling a 1-gang relay (https://he.aliexpress.com/item/1005003750654499.html)
+* A 12V submerged water pump (https://aliexpress.com/item/1005007474594614.html), currently inside a 10L water bucket, but can be of course in any container you wish (ideally with a lid)
+* A 12VDC power supply to power the pump and the ESP32 (https://aliexpress.com/item/1005009362081587.html)
+* A buck converter to step down 12V DC to 5V DC in order to power the ESP32 (https://aliexpress.com/item/1005007805936960.html,choose 5V output)
+* A hall flow meter to sense the water flow rate (https://aliexpress.com/item/1005006233616387.html)
+* A garden watering hardware kit from Aliexpress (https://aliexpress.com/item/1005009836501318.html)
+* A mains plug + wire to connect to the 12V power supply (https://aliexpress.com/item/1005007790281260.html)
+* A breadboard to house the ESP32 and the voltage converter (https://aliexpress.com/item/1005004532352681.html)
+
+Total component cost is about 30$.
+
 
 # Switches
 * The Esphome config exploses the following the the HA frontend:
