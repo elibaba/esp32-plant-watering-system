@@ -1,0 +1,17 @@
+type: entities
+entities:
+  - entity: switch.watering_system_pump
+    name: Turn on
+    icon: mdi:flower
+    state_color: true
+  - entity: switch.watering_system_reset_daily_water_usage
+    name: Daily reset
+    state_color: true
+  - entity: sensor.watering_system_water_flow_rate
+    name: Flow
+    icon: mdi:waves-arrow-left
+  - entity: sensor.watering_system_daily_water_usage
+    icon: mdi:water
+    name: Daily Total
+title: Watering System
+show_header_toggle: false
